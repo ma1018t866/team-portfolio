@@ -1,6 +1,10 @@
-/* Shared styles for the whole website */
+/* Assignment #2 - Advanced CSS: Flexbox & Grid */
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -37,11 +41,66 @@ a {
   margin: 0 auto;
 }
 
+/* =========================
+   TASK 3 - CSS GRID LAYOUT
+   ========================= */
+.site-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+}
+
 #main-header {
+  grid-area: header;
   background-color: #1b4965;
   padding: 14px 0;
 }
 
+.sidebar {
+  grid-area: sidebar;
+  padding: 25px 18px;
+  background-color: #e5f1f7;
+  border-right: 1px solid #c5d9e4;
+}
+
+.sidebar h2 {
+  font-size: 1.15rem;
+}
+
+.sidebar ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.sidebar li {
+  margin-bottom: 8px;
+}
+
+.site-main {
+  grid-area: main;
+  min-width: 0;
+}
+
+footer {
+  grid-area: footer;
+  padding: 20px;
+  background-color: #173042;
+  color: white;
+  text-align: center;
+}
+
+footer p {
+  margin: 3px 0;
+}
+
+/* =========================
+   TASK 1 - FLEXBOX NAVIGATION
+   ========================= */
 .header-content {
   display: flex;
   align-items: center;
@@ -54,12 +113,14 @@ a {
   font-size: 1.15rem;
   font-weight: bold;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .nav-menu {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  align-items: center;
   gap: 8px;
   list-style: none;
   margin: 0;
@@ -104,25 +165,13 @@ a {
   text-transform: uppercase;
 }
 
+/* =========================
+   TASK 2 - FLEXBOX CARDS
+   ========================= */
 .team-grid {
   display: flex;
-  gap: 20px;
   align-items: stretch;
-}
-
-.card {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card .button-link {
-  margin-top: auto;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(27, 73, 101, 0.2);
+  gap: 20px;
 }
 
 .card,
@@ -137,7 +186,16 @@ a {
 }
 
 .card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(27, 73, 101, 0.18);
 }
 
 .card-photo {
@@ -145,6 +203,10 @@ a {
   height: 190px;
   object-fit: cover;
   border-radius: 6px;
+}
+
+.card p {
+  flex: 1;
 }
 
 .button-link,
@@ -240,6 +302,54 @@ button:hover {
   background-color: #eef6fa;
 }
 
+/* =========================
+   TASK 4 - CSS GRID GALLERY
+   ========================= */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  border-radius: 8px;
+  background-color: #dceef8;
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 12px;
+  background-color: rgba(0, 0, 0, 0.68);
+  color: white;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .contact-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -307,18 +417,34 @@ button:hover {
   margin-top: 18px;
 }
 
-footer {
-  padding: 20px;
-  background-color: #173042;
-  color: white;
-  text-align: center;
-}
+/* =========================
+   RESPONSIVE DESIGN
+   ========================= */
+@media (max-width: 900px) {
+  .site-layout {
+    grid-template-columns: 170px 1fr;
+  }
 
-footer p {
-  margin: 3px 0;
+  .header-content {
+    align-items: flex-start;
+  }
+
+  .nav-menu {
+    justify-content: flex-end;
+  }
 }
 
 @media (max-width: 760px) {
+  .site-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+  }
+
   .header-content,
   .page-intro {
     align-items: flex-start;
@@ -329,7 +455,15 @@ footer p {
     justify-content: flex-start;
   }
 
-  .team-grid,
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #c5d9e4;
+  }
+
+  .team-grid {
+    flex-direction: column;
+  }
+
   .profile-card,
   .contact-layout {
     grid-template-columns: 1fr;
@@ -338,5 +472,19 @@ footer p {
   .profile-photo {
     width: 190px;
     height: 190px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    width: 92%;
   }
 }
