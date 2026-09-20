@@ -1,52 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Page author: Erasyl -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Erasyl | About Me</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header id="main-header">
-    <div class="container header-content">
-      <a class="logo" href="index.html">Team Portfolio</a>
-      <nav aria-label="Main navigation">
-        <ul class="nav-menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="member1.html">Mansur</a></li>
-          <li><a class="active" href="member2.html">Erasyl</a></li>
-          <li><a href="hobbies.html">Interests</a></li>
-          <li><a href="member3.html">Ansar</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container section">
-    <article class="profile-card">
-      <img class="profile-photo" src="images/erasyl.jpg" alt="Portrait of Erasyl from Shymkent">
-      <div>
-        <p class="eyebrow">Team member two</p>
-        <h1>Erasyl</h1>
-        <p class="city">Shymkent, Kazakhstan</p>
-        <h2>About me</h2>
-        <p>I am Erasyl, a second-year Software Engineering student at Astana IT University. I came from Shymkent and enjoy learning new technology with my friends.</p>
-        <p>I like playing football because it teaches teamwork, discipline, and fast decision-making. I am also interested in cars and enjoy learning about different models, engines, and automotive technology.</p>
-        <h2>My interests</h2>
-        <ul class="interest-list">
-          <li>Football</li>
-          <li>Cars</li>
-          <li>Team activities</li>
-        </ul>
+  <div class="site-layout">
+    <header id="main-header">
+      <div class="container header-content">
+        <a class="logo" href="index.html">Team Portfolio</a>
+        <nav aria-label="Main navigation">
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="member1.html">Mansur</a></li>
+            <li><a class="active" href="member2.html">Erasyl</a></li>
+            <li><a href="hobbies.html">Interests</a></li>
+            <li><a href="member3.html">Ansar</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
       </div>
-    </article>
-  </main>
-
-  <footer>
-    <p>Mansur | Erasyl | Ansar</p>
-    <p>Astana IT University - Software Engineering - Year 2</p>
-  </footer>
+    </header>
+    <aside class="sidebar">
+      <h2>Assignment #2</h2>
+      <ul>
+        <li><a href="index.html">Flexbox cards</a></li>
+        <li><a href="hobbies.html#gallery">Grid gallery</a></li>
+        <li><a href="member1.html">Grid layout</a></li>
+        <li><a href="contact.html">Contact form</a></li>
+      </ul>
+      <h2>Team</h2>
+      <p>Mansur, Erasyl and Ansar</p>
+    </aside>
+    <main class="site-main">
+      <section class="container section">
+        <article class="profile-card">
+          <img class="profile-photo" src="images/erasyl.jpg" alt="Portrait of Erasyl from Shymkent, Kazakhstan">
+          <div>
+            <p class="eyebrow">Team member</p>
+            <h1>Erasyl</h1>
+            <p class="city">Shymkent, Kazakhstan</p>
+            <h2>About me</h2>
+            <p>I am Erasyl, a second-year Software Engineering student at Astana IT University. I came from Shymkent and enjoy learning new technology with my friends.</p>
+            <p>I like playing football because it teaches teamwork, discipline, and fast decision-making. I am also interested in cars and enjoy learning about different models, engines, and automotive technology.</p>
+            <h2>My interests</h2>
+            <ul class="interest-list"><li>Football</li><li>Cars</li><li>Team activities</li></ul>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer>
+      <p>Mansur | Erasyl | Ansar</p>
+      <p>Astana IT University - Software Engineering - Year 2</p>
+    </footer>
+  </div>
 </body>
 </html>
