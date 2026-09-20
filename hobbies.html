@@ -1,97 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Page author: Erasyl -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Team Interests</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header id="main-header">
-    <div class="container header-content">
-      <a class="logo" href="index.html">Team Portfolio</a>
-      <nav aria-label="Main navigation">
-        <ul class="nav-menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="member1.html">Mansur</a></li>
-          <li><a href="member2.html">Erasyl</a></li>
-          <li><a class="active" href="hobbies.html">Interests</a></li>
-          <li><a href="member3.html">Ansar</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container section">
-    <section class="page-intro">
-      <img class="intro-image" src="images/interests.jpg" alt="Two team members together outdoors">
-      <div>
-        <p class="eyebrow">Team activities</p>
-        <h1>Our interests</h1>
-        <p>Our team has different hobbies, but sports, games, and technology are common topics for us.</p>
+  <div class="site-layout">
+    <header id="main-header">
+      <div class="container header-content">
+        <a class="logo" href="index.html">Team Portfolio</a>
+        <nav aria-label="Main navigation">
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="member1.html">Mansur</a></li>
+            <li><a href="member2.html">Erasyl</a></li>
+            <li><a class="active" href="hobbies.html">Interests</a></li>
+            <li><a href="member3.html">Ansar</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
       </div>
-    </section>
-
-    <section class="content-block">
-      <h2>Our favourite sports</h2>
-      <ol>
-        <li>Running</li>
-        <li>Football</li>
-        <li>Basketball</li>
-      </ol>
-
-      <h2>Other interests</h2>
+    </header>
+    <aside class="sidebar">
+      <h2>Assignment #2</h2>
       <ul>
-        <li>Billiards</li>
-        <li>Cars and automotive technology</li>
-        <li>Bunker and strategy games</li>
-        <li>Computer games</li>
-        <li>Web development</li>
+        <li><a href="index.html">Flexbox cards</a></li>
+        <li><a href="hobbies.html#gallery">Grid gallery</a></li>
+        <li><a href="member1.html">Grid layout</a></li>
+        <li><a href="contact.html">Contact form</a></li>
       </ul>
-    </section>
+      <h2>Team</h2>
+      <p>Mansur, Erasyl and Ansar</p>
+    </aside>
+    <main class="site-main">
+      <section class="container section">
+        <section class="page-intro">
+          <img class="intro-image" src="images/interests.jpg" alt="Two team members together outdoors">
+          <div>
+            <p class="eyebrow">Team activities</p>
+            <h1>Our interests</h1>
+            <p>Our team has different hobbies, but sports, games, and technology are common topics for us.</p>
+          </div>
+        </section>
 
-    <section class="content-block">
-      <h2>Team interests table</h2>
-      <div class="table-wrap">
-        <table class="info-table">
-          <thead>
-            <tr>
-              <th>Team member</th>
-              <th>Sport</th>
-              <th>Other interest</th>
-              <th>City</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Mansur</td>
-              <td>Running</td>
-              <td>Billiards and web development</td>
-              <td>Astana</td>
-            </tr>
-            <tr>
-              <td>Erasyl</td>
-              <td>Football</td>
-              <td>Cars</td>
-              <td>Shymkent</td>
-            </tr>
-            <tr>
-              <td>Ansar</td>
-              <td>Basketball</td>
-              <td>Bunker and computer games</td>
-              <td>Kosshy</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+        <section class="content-block">
+          <h2>Our favourite sports</h2>
+          <ol>
+            <li>Running</li>
+            <li>Football</li>
+            <li>Basketball</li>
+          </ol>
+          <h2>Other interests</h2>
+          <ul>
+            <li>Billiards</li>
+            <li>Cars and automotive technology</li>
+            <li>Bunker and strategy games</li>
+            <li>Computer games</li>
+            <li>Web development</li>
+          </ul>
+        </section>
 
-  <footer>
-    <p>Mansur | Erasyl | Ansar</p>
-    <p>Astana IT University - Software Engineering - Year 2</p>
-  </footer>
+        <section class="content-block">
+          <h2>Team interests table</h2>
+          <div class="table-wrap">
+            <table class="info-table">
+              <thead><tr><th>Team member</th><th>Sport</th><th>Other interest</th><th>City</th></tr></thead>
+              <tbody>
+                <tr><td>Mansur</td><td>Running</td><td>Billiards and web development</td><td>Astana</td></tr>
+                <tr><td>Erasyl</td><td>Football</td><td>Cars</td><td>Shymkent</td></tr>
+                <tr><td>Ansar</td><td>Basketball</td><td>Bunker and computer games</td><td>Kosshy</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="gallery" class="content-block">
+          <p class="eyebrow">Task 4</p>
+          <h2>Team Image Gallery</h2>
+          <p>The gallery uses CSS Grid with three equal columns. Move the mouse over an image to see the caption.</p>
+          <div class="gallery">
+            <div class="gallery-item"><img src="images/gallery1.jpg" alt="Mansur"><div class="gallery-caption">Mansur</div></div>
+            <div class="gallery-item"><img src="images/gallery2.jpg" alt="Erasyl"><div class="gallery-caption">Erasyl</div></div>
+            <div class="gallery-item"><img src="images/gallery3.jpg" alt="Ansar"><div class="gallery-caption">Ansar</div></div>
+            <div class="gallery-item"><img src="images/gallery4.jpg" alt="Team interests"><div class="gallery-caption">Team interests</div></div>
+            <div class="gallery-item"><img src="images/gallery5.jpg" alt="Team contact"><div class="gallery-caption">Team project</div></div>
+            <div class="gallery-item"><img src="images/gallery6.jpg" alt="Team member photo"><div class="gallery-caption">Team member</div></div>
+            <div class="gallery-item"><img src="images/gallery7.jpg" alt="Team member photo"><div class="gallery-caption">Team member</div></div>
+            <div class="gallery-item"><img src="images/gallery8.jpg" alt="Team member photo"><div class="gallery-caption">Team member</div></div>
+            <div class="gallery-item"><img src="images/gallery9.jpg" alt="Team activity"><div class="gallery-caption">Team activity</div></div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <footer>
+      <p>Mansur | Erasyl | Ansar</p>
+      <p>Astana IT University - Software Engineering - Year 2</p>
+    </footer>
+  </div>
 </body>
 </html>
