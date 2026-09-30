@@ -488,3 +488,24 @@ button:hover {
     width: 92%;
   }
 }
+
+/* =========================
+   ASSIGNMENT 3 - BOOTSTRAP + MEDIA QUERIES
+   Assignment 3 - Tasks 3, 6 and 8 - Mansur.
+   Bootstrap handles the grid and components; these rules adjust the project theme. */
+/* Assignment 3 - Tasks 3 and 8 - Mansur: cards and grid presentation. */
+.assignment3-section { margin-top: 2rem; }
+.assignment3-section .card { overflow: hidden; border: 0; }
+.assignment3-section .card-img-top { height: 180px; object-fit: cover; }
+.carousel-image { height: 360px; object-fit: cover; }
+.bootstrap-form .btn { border-radius: 4px; }
+.bootstrap-form .btn-group { margin-top: 18px; }
+/* Assignment 3 - Tasks 1 and 2 - Erasyl: media queries keep typography and cards responsive. */
+@media (max-width: 760px) {
+  .assignment3-section .row { --bs-gutter-y: 1.5rem; }
+  .carousel-image { height: 250px; }
+}
+@media (max-width: 480px) {
+  .assignment3-section .card-img-top { height: 150px; }
+  .carousel-image { height: 210px; }
+}
