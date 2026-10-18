@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#1b2730"/><rect x="0" y="0" width="1200" height="64" fill="#1b4965"/><text x="56" y="40" fill="white" font-family="Arial" font-size="22" font-weight="700">Team Portfolio</text>
+  <rect x="0" y="64" width="1200" height="696" fill="#173042" opacity=".74"/>
+  <rect x="375" y="230" width="450" height="300" rx="12" fill="white"/>
+  <text x="410" y="292" fill="#22313f" font-family="Arial" font-size="30" font-weight="700">Stay connected</text><text x="778" y="290" fill="#1b4965" font-family="Arial" font-size="30">×</text>
+  <text x="410" y="330" fill="#22313f" font-family="Arial" font-size="16">Receive news about the Чушпаны team portfolio.</text>
+  <text x="410" y="380" fill="#22313f" font-family="Arial" font-size="16" font-weight="700">Email</text><rect x="410" y="392" width="380" height="42" rx="4" fill="white" stroke="#9eb6c5"/><text x="425" y="419" fill="#8c9aa2" font-family="Arial" font-size="15">you@example.com</text>
+  <rect x="410" y="460" width="110" height="42" rx="5" fill="#1b4965"/><text x="430" y="487" fill="white" font-family="Arial" font-size="16">Subscribe</text>
+</svg>

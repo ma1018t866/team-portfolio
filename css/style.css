@@ -1,0 +1,553 @@
+/* Assignment #2 - Advanced CSS: Flexbox & Grid */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #f4f6f8;
+  color: #22313f;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  color: #1b4965;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-top: 0;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+a {
+  color: #1b4965;
+}
+
+.container {
+  width: 90%;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+/* =========================
+   TASK 3 - CSS GRID LAYOUT
+   ========================= */
+.site-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+}
+
+#main-header {
+  grid-area: header;
+  background-color: #1b4965;
+  padding: 14px 0;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  padding: 25px 18px;
+  background-color: #e5f1f7;
+  border-right: 1px solid #c5d9e4;
+}
+
+.sidebar h2 {
+  font-size: 1.15rem;
+}
+
+.sidebar ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.sidebar li {
+  margin-bottom: 8px;
+}
+
+.site-main {
+  grid-area: main;
+  min-width: 0;
+}
+
+footer {
+  grid-area: footer;
+  padding: 20px;
+  background-color: #173042;
+  color: white;
+  text-align: center;
+}
+
+footer p {
+  margin: 3px 0;
+}
+
+/* =========================
+   TASK 1 - FLEXBOX NAVIGATION
+   ========================= */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  color: white;
+  font-size: 1.15rem;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu a {
+  display: inline-block;
+  color: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  background-color: #5fa8d3;
+}
+
+.hero {
+  padding: 62px 0;
+  background-color: #dceef8;
+  border-bottom: 1px solid #b7d8e9;
+}
+
+.hero p {
+  max-width: 700px;
+  font-size: 1.08rem;
+}
+
+.section {
+  padding-top: 36px;
+  padding-bottom: 36px;
+}
+
+.eyebrow {
+  margin-bottom: 6px;
+  color: #4d7c99;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* =========================
+   TASK 2 - FLEXBOX CARDS
+   ========================= */
+.team-grid {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.card,
+.simple-box,
+.content-block,
+.profile-card,
+#contact-form {
+  background-color: white;
+  border: 1px solid #d6e1e8;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(27, 73, 101, 0.08);
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(27, 73, 101, 0.18);
+}
+
+.card-photo {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.card p {
+  flex: 1;
+}
+
+.button-link,
+button {
+  display: inline-block;
+  border: 0;
+  border-radius: 4px;
+  background-color: #1b4965;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 9px 14px;
+  text-decoration: none;
+}
+
+.button-link:hover,
+button:hover {
+  background-color: #123449;
+}
+
+.simple-box,
+.content-block {
+  margin-top: 25px;
+  padding: 22px;
+}
+
+.text-link:hover {
+  color: #0b3a55;
+}
+
+/* =========================
+   ASSIGNMENT 4 - JAVASCRIPT UI
+   ========================= */
+.js-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.live-clock {
+  display: flex;
+  flex: 1 1 280px;
+  flex-direction: column;
+  padding: 12px 16px;
+  border-left: 4px solid #5fa8d3;
+  background: #eef6fa;
+}
+
+.toolbar-label { color: #4d7c99; font-size: .8rem; font-weight: bold; text-transform: uppercase; letter-spacing: .06em; }
+.assignment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.compact-block { margin-top: 0; padding: 20px; }
+.validation-form label, #subscription-form label { display: block; margin-top: 10px; font-weight: bold; }
+.validation-form input, #subscription-form input { width: 100%; border: 1px solid #9eb6c5; border-radius: 4px; padding: 8px; font: inherit; }
+.validation-form button, #subscription-form button { margin-top: 14px; }
+.form-status { min-height: 24px; margin: 10px 0 0; font-weight: bold; }
+.form-status.error { color: #a12626; }
+.form-status.success { color: #17633b; }
+.accordion { display: grid; gap: 6px; }
+.accordion-trigger { width: 100%; padding: 12px 14px; border: 1px solid #c5d9e4; border-radius: 5px; background: #eef6fa; color: #1b4965; text-align: left; font-weight: bold; }
+.accordion-trigger[aria-expanded="true"] { background: #1b4965; color: white; }
+.accordion-panel { padding: 12px 14px; border-left: 3px solid #5fa8d3; background: #f7fbfd; animation: reveal .2s ease; }
+@keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.modal-backdrop { display: none; position: fixed; z-index: 10; inset: 0; align-items: center; justify-content: center; padding: 20px; background: rgba(13, 31, 43, .65); }
+.modal-backdrop.is-visible { display: flex; }
+.modal-card { position: relative; width: min(100%, 430px); padding: 28px; border-radius: 10px; background: white; box-shadow: 0 16px 50px rgba(0, 0, 0, .25); }
+.modal-close { position: absolute; top: 8px; right: 12px; padding: 0; background: transparent; color: #1b4965; font-size: 1.8rem; }
+.modal-close:hover { background: transparent; color: #123449; }
+
+.profile-card {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 32px;
+  padding: 30px;
+}
+
+.profile-photo {
+  width: 230px;
+  height: 230px;
+  margin: 0 auto;
+  border: 5px solid #dceef8;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.city {
+  margin-top: -8px;
+  color: #4d7c99;
+  font-weight: bold;
+}
+
+.interest-list li {
+  margin-bottom: 5px;
+}
+
+.page-intro {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 25px;
+}
+
+.intro-image {
+  width: 180px;
+  height: 140px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.info-table th,
+.info-table td {
+  border: 1px solid #b9cbd6;
+  padding: 10px;
+  text-align: left;
+}
+
+.info-table th {
+  background-color: #1b4965;
+  color: white;
+}
+
+.info-table tbody tr:nth-child(even) {
+  background-color: #eef6fa;
+}
+
+/* =========================
+   TASK 4 - CSS GRID GALLERY
+   ========================= */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  border-radius: 8px;
+  background-color: #dceef8;
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 12px;
+  background-color: rgba(0, 0, 0, 0.68);
+  color: white;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.contact-image {
+  width: 100%;
+  max-width: 270px;
+  height: 220px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+#contact-form {
+  padding: 24px;
+}
+
+#contact-form label,
+.label-text {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+#contact-form input,
+#contact-form select,
+#contact-form textarea {
+  width: 100%;
+  border: 1px solid #9eb6c5;
+  border-radius: 4px;
+  font: inherit;
+  padding: 9px;
+}
+
+#contact-form input:focus,
+#contact-form select:focus,
+#contact-form textarea:focus {
+  border-color: #1b4965;
+  outline: 2px solid #c8e4f2;
+}
+
+#contact-form input[type="color"] {
+  width: 70px;
+  height: 38px;
+  padding: 3px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 18px;
+}
+
+.radio-group label {
+  margin: 0;
+  font-weight: normal;
+}
+
+.radio-group input {
+  width: auto !important;
+}
+
+#contact-form button {
+  margin-top: 18px;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+   ========================= */
+@media (max-width: 900px) {
+  .site-layout {
+    grid-template-columns: 170px 1fr;
+  }
+
+  .header-content {
+    align-items: flex-start;
+  }
+
+  .nav-menu {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+  }
+
+  .header-content,
+  .page-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .nav-menu {
+    justify-content: flex-start;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #c5d9e4;
+  }
+
+  .team-grid {
+    flex-direction: column;
+  }
+
+  .profile-card,
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-photo {
+    width: 190px;
+    height: 190px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .assignment-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    width: 92%;
+  }
+}
+
+/* =========================
+   ASSIGNMENT 3 - BOOTSTRAP + MEDIA QUERIES
+   Assignment 3 - Tasks 3, 6 and 8 - Mansur.
+   Bootstrap handles the grid and components; these rules adjust the project theme. */
+/* Assignment 3 - Tasks 3 and 8 - Mansur: cards and grid presentation. */
+.assignment3-section { margin-top: 2rem; }
+.assignment3-section .card { overflow: hidden; border: 0; }
+.assignment3-section .card-img-top { height: 180px; object-fit: cover; }
+.carousel-image { height: 360px; object-fit: cover; }
+.bootstrap-form .btn { border-radius: 4px; }
+.bootstrap-form .btn-group { margin-top: 18px; }
+/* Assignment 3 - Tasks 1 and 2 - Erasyl: media queries keep typography and cards responsive. */
+@media (max-width: 760px) {
+  .assignment3-section .row { --bs-gutter-y: 1.5rem; }
+  .carousel-image { height: 250px; }
+}
+@media (max-width: 480px) {
+  .assignment3-section .card-img-top { height: 150px; }
+  .carousel-image { height: 210px; }
+}

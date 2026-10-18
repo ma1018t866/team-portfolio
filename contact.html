@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Portfolio | Contact</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Assignment 3 - Tasks 6 and 9 - Ansar: Bootstrap CSS supplies buttons, form and utility classes. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="site-layout">
+    <header id="main-header">
+      <div class="container header-content">
+        <a class="logo" href="index.html">Team Portfolio</a>
+        <!-- Assignment 3 - Task 5 - Ansar: Navbar toggler makes navigation responsive. -->
+        <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="member1.html">Mansur</a></li>
+            <li><a href="member2.html">Erasyl</a></li>
+            <li><a href="hobbies.html">Interests</a></li>
+            <li><a href="member3.html">Ansar</a></li>
+            <li><a class="active" href="contact.html">Contact</a></li>
+          </ul></div>
+        </nav>
+      </div>
+    </header>
+    <aside class="sidebar">
+      <h2>Assignment #2</h2>
+      <ul>
+        <li><a href="index.html">Flexbox cards</a></li>
+        <li><a href="hobbies.html#gallery">Grid gallery</a></li>
+        <li><a href="member1.html">Grid layout</a></li>
+        <li><a href="contact.html">Contact form</a></li>
+      </ul>
+      <h2>Team</h2>
+      <p>Mansur, Erasyl and Ansar</p>
+    </aside>
+    <main class="site-main">
+      <section class="container section">
+        <section class="contact-layout">
+          <div>
+            <p class="eyebrow">Contact page</p>
+            <h1>Send us a message</h1>
+            <p>This form is a simple contact form created with HTML. It uses browser validation for required fields.</p>
+            <img class="contact-image" src="images/contact.jpg" alt="Two team members together">
+          </div>
+
+          <!-- Assignment 3 - Tasks 6, 9 and 10 - Ansar: Bootstrap form controls, buttons and accessibility. -->
+          <form id="contact-form" class="bootstrap-form" action="#contact-form" method="get">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="your@email.com" required>
+            <label for="topic">Topic</label>
+            <select id="topic" name="topic" required>
+              <option value="">Choose a topic</option>
+              <option value="project">Project</option>
+              <option value="university">University</option>
+              <option value="hobbies">Hobbies</option>
+            </select>
+            <p class="label-text">Preferred reply</p>
+            <div class="radio-group">
+              <label><input type="radio" name="reply" value="email" required> Email</label>
+              <label><input type="radio" name="reply" value="message"> Message</label>
+            </div>
+            <label for="colour">Favourite colour</label>
+            <input id="colour" name="colour" type="color" value="#1b4965">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message" required></textarea>
+            <div class="btn-group" role="group" aria-label="Form actions"><button class="btn btn-primary" type="submit">Send message</button><button class="btn btn-outline-secondary" type="reset">Clear</button></div>
+          </form>
+        </section>
+      </section>
+    </main>
+    <footer>
+      <p>Чушпаны: Ансар Амантай | Мансур Жумажанов | Ерасыл Досанкул</p>
+      <p>Astana IT University - Software Engineering - Year 2</p>
+    </footer>
+  </div>
+  <!-- Assignment 3 - Tasks 5 and 9 - Ansar: Bootstrap JavaScript activates navbar and form behaviour. -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

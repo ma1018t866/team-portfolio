@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#eef6fa"/><rect x="0" y="0" width="1200" height="64" fill="#1b4965"/>
+  <text x="56" y="40" fill="white" font-family="Arial" font-size="22" font-weight="700">Team Portfolio</text>
+  <text x="56" y="120" fill="#4d7c99" font-family="Arial" font-size="14" font-weight="700">ASSIGNMENT 4 - JAVASCRIPT LAB</text>
+  <text x="56" y="164" fill="#1b4965" font-family="Arial" font-size="36" font-weight="700">Interactive team hub</text>
+  <rect x="56" y="194" width="1088" height="70" rx="8" fill="white" stroke="#d6e1e8"/>
+  <text x="78" y="220" fill="#4d7c99" font-family="Arial" font-size="12" font-weight="700">CURRENT DATE AND TIME</text><text x="78" y="247" fill="#22313f" font-family="Arial" font-size="20" font-weight="700">Sunday, October 18, 2026 at 4:39:35 PM</text>
+  <rect x="870" y="211" width="120" height="38" rx="5" fill="#1b4965"/><text x="884" y="236" fill="white" font-family="Arial" font-size="14">Change background</text>
+  <rect x="1004" y="211" width="120" height="38" rx="5" fill="#1b4965"/><text x="1014" y="236" fill="white" font-family="Arial" font-size="14">Subscribe</text>
+  <rect x="56" y="292" width="526" height="390" rx="8" fill="white" stroke="#d6e1e8"/><rect x="618" y="292" width="526" height="390" rx="8" fill="white" stroke="#d6e1e8"/>
+  <text x="80" y="332" fill="#1b4965" font-family="Arial" font-size="22" font-weight="700">Validated registration form</text>
+  <text x="80" y="374" fill="#22313f" font-family="Arial" font-size="16" font-weight="700">Full name</text><rect x="80" y="386" width="470" height="38" rx="4" fill="white" stroke="#9eb6c5"/>
+  <text x="80" y="456" fill="#22313f" font-family="Arial" font-size="16" font-weight="700">Email</text><rect x="80" y="468" width="470" height="38" rx="4" fill="white" stroke="#9eb6c5"/>
+  <rect x="80" y="548" width="124" height="40" rx="5" fill="#1b4965"/><text x="94" y="574" fill="white" font-family="Arial" font-size="15">Validate form</text><text x="80" y="630" fill="#a12626" font-family="Arial" font-size="16" font-weight="700">Full name is required.</text>
+  <text x="642" y="332" fill="#1b4965" font-family="Arial" font-size="22" font-weight="700">Team FAQ accordion</text>
+  <rect x="642" y="360" width="478" height="50" rx="5" fill="#1b4965"/><text x="660" y="392" fill="white" font-family="Arial" font-size="16" font-weight="700">What is the purpose of the project?</text>
+  <rect x="642" y="410" width="478" height="76" fill="#f7fbfd" stroke="#5fa8d3"/><text x="660" y="442" fill="#22313f" font-family="Arial" font-size="15">It is a responsive team portfolio enhanced</text><text x="660" y="466" fill="#22313f" font-family="Arial" font-size="15">with five JavaScript interactions.</text>
+  <rect x="642" y="500" width="478" height="50" rx="5" fill="#eef6fa" stroke="#c5d9e4"/><text x="660" y="532" fill="#1b4965" font-family="Arial" font-size="16" font-weight="700">How was the work shared?</text>
+  <rect x="642" y="560" width="478" height="50" rx="5" fill="#eef6fa" stroke="#c5d9e4"/><text x="660" y="592" fill="#1b4965" font-family="Arial" font-size="16" font-weight="700">Which technologies are used?</text>
+</svg>
