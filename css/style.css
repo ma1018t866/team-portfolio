@@ -551,3 +551,95 @@ button:hover {
   .assignment3-section .card-img-top { height: 150px; }
   .carousel-image { height: 210px; }
 }
+
+
+/* =========================
+   ASSIGNMENT 5 - ADVANCED JAVASCRIPT
+   ========================= */
+
+/* Dark theme */
+body.dark-theme {
+  background-color: #17212b;
+  color: #e8eef4;
+}
+
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3 {
+  color: #8ecae6;
+}
+
+body.dark-theme .card,
+body.dark-theme .simple-box,
+body.dark-theme .content-block,
+body.dark-theme .profile-card,
+body.dark-theme #contact-form {
+  background-color: #243442;
+  color: #e8eef4;
+  border-color: #415568;
+}
+
+body.dark-theme .hero {
+  background-color: #203747;
+  border-color: #415568;
+}
+
+body.dark-theme .sidebar {
+  background-color: #243442;
+  color: #e8eef4;
+  border-color: #415568;
+}
+
+body.dark-theme .sidebar a,
+body.dark-theme .text-link {
+  color: #8ecae6;
+}
+
+body.dark-theme .live-clock,
+body.dark-theme #team-summary {
+  background-color: #243442;
+  color: #e8eef4;
+}
+
+body.dark-theme .toolbar-label {
+  color: #8ecae6;
+}
+
+body.dark-theme .accordion-panel,
+body.dark-theme .accordion-trigger:not([aria-expanded="true"]) {
+  background-color: #203747;
+  color: #e8eef4;
+}
+
+#language-select {
+  padding: 9px;
+  border: 1px solid #9eb6c5;
+  border-radius: 4px;
+  font: inherit;
+}
+
+#team-summary {
+  padding: 12px;
+  border-left: 4px solid #5fa8d3;
+  background-color: #eef6fa;
+  transition: transform 0.25s ease;
+}
+
+#team-summary.is-animated {
+  transform: translateX(6px);
+}
+
+body.dark-theme #language-select {
+  background-color: #243442;
+  color: #e8eef4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
