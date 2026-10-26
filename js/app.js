@@ -239,18 +239,61 @@
     });
   }
 
-  // CALLBACK: Handle subscription without reloading the page.
-  // This is a front-end demonstration and does not send data to a server.
+  // CALLBACK + FETCH: Send the subscription email to the owner's inbox.
+  // FormSubmit handles delivery; the first submission requires email activation.
   const subscriptionForm = document.querySelector('#subscription-form');
 
   if (subscriptionForm) {
-    subscriptionForm.addEventListener('submit', (event) => {
+    subscriptionForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       const status = subscriptionForm.querySelector('.form-status');
-      status.className = 'form-status success';
-      status.textContent = 'Thank you! We will keep you updated.';
-      subscriptionForm.reset();
+      const submitButton = subscriptionForm.querySelector('button[type="submit"]');
+      const emailInput = subscriptionForm.querySelector('[name="email"]');
+
+      if (!subscriptionForm.reportValidity()) return;
+
+      status.className = 'form-status';
+      status.textContent = 'Sending...';
+      submitButton.disabled = true;
+
+      const submission = {
+        email: emailInput.value.trim(),
+        _subject: 'New Team Portfolio subscription',
+        _template: 'table',
+        message: 'A visitor subscribed to updates from the Team Portfolio website.'
+      };
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/amantayansar07@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(submission)
+        });
+
+        const result = await response.json();
+
+        // FormSubmit may return HTTP 200 for errors, so check its success value.
+        if (response.ok && result.success === 'true') {
+          status.className = 'form-status success';
+          status.textContent = 'Thank you! Your subscription request was sent.';
+          subscriptionForm.reset();
+        } else {
+          status.className = 'form-status error';
+          status.textContent = result.message ||
+            'The message could not be sent. Please try again later.';
+        }
+      } catch (error) {
+        status.className = 'form-status error';
+        status.textContent = 'Network error. Check your connection and try again.';
+        console.error('Subscription form submission failed:', error);
+      } finally {
+        submitButton.disabled = false;
+      }
     });
   }
 })();
+
