@@ -643,3 +643,18 @@ body.dark-theme #language-select {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Subscription form: privacy note and loading state */
+.privacy-note {
+  margin: 8px 0 4px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #52616b;
+}
+#subscription-form button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+.dark-theme .privacy-note {
+  color: #d2dce2;
+}
