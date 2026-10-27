@@ -1,298 +1,198 @@
-/* Assignment 5 - Advanced JavaScript and DOM Manipulation.
-   The script checks whether each element exists so it can be shared by all pages. */
-(function () {
+document.addEventListener("DOMContentLoaded", () => {
   'use strict';
 
-  // OBJECTS AND ARRAYS: Store information about the team members.
+  // 1. Language & Storage
+  const languageSelect = document.getElementById("language-select");
+  const savedLanguage = localStorage.getItem("teamPortfolioLanguage") || "ru";
+
+  function currentLanguage() {
+    return document.documentElement.lang === "en" ? "en" : "ru";
+  }
+
+  function setLanguage(language) {
+    if (language !== "en" && language !== "ru") language = "ru";
+    document.documentElement.lang = language;
+    localStorage.setItem("teamPortfolioLanguage", language);
+
+    document.querySelectorAll("[data-en][data-ru]").forEach((el) => {
+      const text = el.getAttribute(`data-${language}`);
+      if (text) el.textContent = text;
+    });
+    document.querySelectorAll("[data-en-placeholder][data-ru-placeholder]").forEach((el) => {
+      const ph = el.getAttribute(`data-${language}-placeholder`);
+      if (ph) el.placeholder = ph;
+    });
+    document.querySelectorAll("[data-en-alt][data-ru-alt]").forEach((el) => {
+      const alt = el.getAttribute(`data-${language}-alt`);
+      if (alt) el.alt = alt;
+    });
+    document.querySelectorAll("[data-en-aria-label][data-ru-aria-label]").forEach((el) => {
+      const aria = el.getAttribute(`data-${language}-aria-label`);
+      if (aria) el.setAttribute("aria-label", aria);
+    });
+
+    if (languageSelect) languageSelect.value = language;
+    updateThemeButton();
+    updateSoundButton();
+    updateSummary();
+  }
+
+  if (languageSelect) {
+    languageSelect.addEventListener("change", () => {
+      setLanguage(languageSelect.value);
+    });
+  }
+
+  // 2. Team Members & Summary
   const teamMembers = [
-    { name: 'Mansur', city: 'Astana', interests: ['running', 'billiards', 'web development'] },
-    { name: 'Erasyl', city: 'Shymkent', interests: ['football', 'cars'] },
-    { name: 'Ansar', city: 'Kosshy', interests: ['basketball', 'Bunker', 'computer games'] }
+    { name: "Mansur", city: "Astana" },
+    { name: "Erasyl", city: "Shymkent" },
+    { name: "Ansar", city: "Kosshy" }
   ];
 
-  // HIGHER-ORDER FUNCTION: map() creates a new array of names.
-  const teamNames = teamMembers.map((member) => member.name);
-  const teamSummary = document.querySelector('#team-summary');
-
-  if (teamSummary) {
-    teamSummary.textContent = `Our team: ${teamNames.join(', ')}.`;
-    teamSummary.title = `Team members: ${teamMembers.length}`;
-
-    // ANIMATION: Apply a small movement when the summary is clicked.
-    teamSummary.addEventListener('click', () => {
-      teamSummary.classList.toggle('is-animated');
-    });
+  function updateSummary() {
+    const summary = document.getElementById("team-summary");
+    if (!summary) return;
+    const names = teamMembers.map(m => m.name).join(", ");
+    const ru = currentLanguage() === "ru";
+    summary.textContent = ru ? "Наша команда: " + names + "." : "Our team: " + names + ".";
+    summary.title = ru ? `Участников команды: ${teamMembers.length}` : `Team members: ${teamMembers.length}`;
   }
 
-  // Demonstrate forEach() and object properties on the profile cards.
-  document.querySelectorAll('.team-grid .card').forEach((card, index) => {
-    const member = teamMembers[index];
-    if (!member) return;
-
-    card.dataset.member = member.name;
-    card.title = `${member.name} from ${member.city}`;
-
-    card.addEventListener('click', (event) => {
-      if (event.target.closest('a')) return;
-      card.classList.toggle('is-animated');
-      card.style.transform = card.classList.contains('is-animated') ? 'scale(1.02)' : '';
-    });
-  });
-
-  // LIVE CLOCK: Update the date and time once every second.
-  const dateTime = document.querySelector('#current-datetime');
-  if (dateTime) {
-    const updateDateTime = () => {
-      dateTime.textContent = new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'full',
-        timeStyle: 'medium'
+  // 3. Live Clock
+  const clock = document.getElementById("current-datetime");
+  function updateClock() {
+    if (!clock) return;
+    try {
+      const locale = currentLanguage() === "ru" ? "ru-RU" : "en-US";
+      clock.textContent = new Intl.DateTimeFormat(locale, {
+        dateStyle: "medium",
+        timeStyle: "medium"
       }).format(new Date());
-    };
-    updateDateTime();
-    window.setInterval(updateDateTime, 1000);
+    } catch (e) {
+      clock.textContent = new Date().toLocaleString();
+    }
   }
+  updateClock();
+  setInterval(updateClock, 1000);
 
-  // DOM STYLING: Change the page background using an array of colors.
-  const backgroundButton = document.querySelector('#change-background');
-  const backgrounds = ['#f4f6f8', '#eef7f2', '#fff7e8', '#f4efff', '#eaf6fb'];
+  // 4. Background Changer
+  const changeBackground = document.getElementById("change-background");
+  const backgrounds = ["#f4f8fb", "#f8f1e7", "#edf7ed", "#f4effa"];
   let backgroundIndex = 0;
-
-  if (backgroundButton) {
-    backgroundButton.addEventListener('click', () => {
-      backgroundIndex = (backgroundIndex + 1) % backgrounds.length;
-      document.body.style.backgroundColor = backgrounds[backgroundIndex];
-      backgroundButton.setAttribute('aria-label', `Background changed to ${backgrounds[backgroundIndex]}`);
+  if (changeBackground) {
+    changeBackground.addEventListener("click", () => {
+      document.body.style.backgroundColor = backgrounds[backgroundIndex % backgrounds.length];
+      backgroundIndex++;
     });
   }
 
-  // CLASS-BASED STYLING: Switch between day and night themes.
-  const themeButton = document.querySelector('#toggle-theme');
+  // 5. Night Mode
+  let nightMode = false;
+  const themeButton = document.getElementById("toggle-theme");
+  function updateThemeButton() {
+    if (!themeButton) return;
+    const ru = currentLanguage() === "ru";
+    themeButton.textContent = nightMode ? (ru ? "Дневной режим" : "Day mode") : (ru ? "Ночной режим" : "Night mode");
+    themeButton.setAttribute("aria-pressed", String(nightMode));
+  }
   if (themeButton) {
-    themeButton.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-theme');
-      themeButton.textContent = isDark ? 'Day mode' : 'Night mode';
-      themeButton.setAttribute('aria-pressed', String(isDark));
+    themeButton.addEventListener("click", () => {
+      nightMode = !nightMode;
+      document.body.classList.toggle("night-mode", nightMode);
+      document.body.classList.toggle("dark-theme", nightMode);
+      updateThemeButton();
     });
   }
 
-  // SWITCH STATEMENT: Set the page language and update translated elements.
-  const languageSelect = document.querySelector('#language-select');
-  if (languageSelect) {
-    languageSelect.addEventListener('change', () => {
-      let language;
-
-      switch (languageSelect.value) {
-        case 'ru':
-          language = 'ru';
-          break;
-        case 'en':
-        default:
-          language = 'en';
-          break;
-      }
-
-      document.documentElement.lang = language;
-      document.querySelectorAll('[data-en][data-ru]').forEach((element) => {
-        element.textContent = element.getAttribute(`data-${language}`);
-      });
-    });
+  // 6. Sound & Web Audio API
+  let soundOn = true;
+  const soundButton = document.getElementById("sound-toggle");
+  function updateSoundButton() {
+    if (!soundButton) return;
+    const ru = currentLanguage() === "ru";
+    soundButton.textContent = soundOn ? (ru ? "Звук: включён" : "Sound: On") : (ru ? "Звук: выключен" : "Sound: Off");
+    soundButton.setAttribute("aria-pressed", String(soundOn));
   }
 
-  // SOUND EFFECTS: Generate a short tone with the Web Audio API.
-  let soundEnabled = true;
-  let audioContext = null;
-  const soundButton = document.querySelector('#sound-toggle');
-
-  function playSound() {
-    if (!soundEnabled) return;
-
+  function playUiSound() {
+    if (!soundOn) return;
     try {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (!AudioContextClass) return;
-
-      audioContext ||= new AudioContextClass();
-      if (audioContext.state === 'suspended') audioContext.resume();
-
-      const oscillator = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-
-      oscillator.type = 'sine';
+      const audio = new AudioContextClass();
+      const oscillator = audio.createOscillator();
+      const gain = audio.createGain();
+      oscillator.type = "sine";
       oscillator.frequency.value = 660;
-      gain.gain.value = 0.04;
-
+      gain.gain.setValueAtTime(0.0001, audio.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, audio.currentTime + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.12);
       oscillator.connect(gain);
-      gain.connect(audioContext.destination);
+      gain.connect(audio.destination);
       oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.08);
+      oscillator.stop(audio.currentTime + 0.13);
+      oscillator.addEventListener("ended", () => audio.close(), { once: true });
     } catch (error) {
-      // Sound is optional; the website still works if audio is unavailable.
-      console.warn('Sound is unavailable.', error);
+      // Audio optional, ignore
     }
   }
 
   if (soundButton) {
-    soundButton.addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      soundButton.textContent = soundEnabled ? 'Sound: On' : 'Sound: Off';
-      soundButton.setAttribute('aria-pressed', String(soundEnabled));
-      if (soundEnabled) playSound();
+    soundButton.addEventListener("click", () => {
+      soundOn = !soundOn;
+      updateSoundButton();
+      if (soundOn) playUiSound();
     });
   }
 
-  // Play a short sound for other button clicks.
-  document.addEventListener('click', (event) => {
-    const button = event.target.closest('button');
-    if (button && button.id !== 'sound-toggle') playSound();
+  document.addEventListener("click", (event) => {
+    const btn = event.target.closest("button");
+    if (btn && btn.id !== "sound-toggle") {
+      playUiSound();
+    }
   });
 
-  // KEYBOARD EVENTS: Use arrow keys to move focus through navigation links.
-  const menuLinks = [...document.querySelectorAll('#mainNav .nav-menu a')];
-
-  menuLinks.forEach((link, index) => {
-    link.addEventListener('keydown', (event) => {
-      let nextIndex;
-
-      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-        nextIndex = (index + 1) % menuLinks.length;
-      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-        nextIndex = (index - 1 + menuLinks.length) % menuLinks.length;
-      } else {
-        return;
-      }
-
-      event.preventDefault();
-      menuLinks[nextIndex].focus();
+  // 7. Accordion
+  document.querySelectorAll(".accordion-trigger").forEach(button => {
+    button.addEventListener("click", () => {
+      const panelId = button.getAttribute("aria-controls");
+      const panel = panelId ? document.getElementById(panelId) : null;
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!expanded));
+      if (panel) panel.hidden = expanded;
+      playUiSound();
     });
   });
 
-  // FAQ ACCORDION: Toggle the answer panel.
-  document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
-    trigger.addEventListener('click', () => {
-      const panel = document.getElementById(trigger.getAttribute('aria-controls'));
-      if (!panel) return;
+  // 8. Modal
+  const modal = document.getElementById("subscription-modal");
+  const openModal = document.getElementById("open-subscription");
+  const closeModal = document.getElementById("close-subscription");
 
-      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
-      trigger.setAttribute('aria-expanded', String(!isOpen));
-      panel.hidden = isOpen;
-      panel.classList.toggle('is-open', !isOpen);
-    });
-  });
-
-  // MODAL: Open and close the subscription window.
-  const modal = document.querySelector('#subscription-modal');
-  const openModal = document.querySelector('#open-subscription');
-  const closeModal = document.querySelector('#close-subscription');
-
-  const closeDialog = () => {
-    if (modal) modal.classList.remove('is-visible');
-  };
+  if (modal) modal.hidden = true;
 
   if (openModal && modal) {
-    openModal.addEventListener('click', () => modal.classList.add('is-visible'));
+    openModal.addEventListener("click", () => {
+      modal.hidden = false;
+      modal.classList.add("is-visible");
+    });
   }
-
-  if (closeModal) closeModal.addEventListener('click', closeDialog);
-
+  if (closeModal && modal) {
+    closeModal.addEventListener("click", () => {
+      modal.hidden = true;
+      modal.classList.remove("is-visible");
+    });
+  }
   if (modal) {
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) closeDialog();
-    });
-  }
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeDialog();
-  });
-
-  // FORM VALIDATION: Check required fields, email format and password matching.
-  const validationForm = document.querySelector('#validation-form');
-
-  if (validationForm) {
-    validationForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const password = validationForm.querySelector('#password');
-      const confirmation = validationForm.querySelector('#password-confirmation');
-      const errorBox = validationForm.querySelector('.form-status');
-      const fields = [...validationForm.querySelectorAll('input[required]')];
-      const errors = [];
-
-      fields.forEach((field) => {
-        if (!field.value.trim()) {
-          errors.push(`${field.labels[0].textContent} is required.`);
-        } else if (field.type === 'email' && !field.validity.valid) {
-          errors.push('Enter a valid email address.');
-        }
-      });
-
-      if (password.value.length < 8) errors.push('Password must contain at least 8 characters.');
-      if (password.value !== confirmation.value) errors.push('Password confirmation must match.');
-
-      if (errors.length) {
-        errorBox.className = 'form-status error';
-        errorBox.textContent = errors[0];
-        validationForm.querySelector(':invalid')?.focus();
-      } else {
-        errorBox.className = 'form-status success';
-        errorBox.textContent = 'Validation passed. Thank you for joining us!';
-        validationForm.reset();
+    modal.addEventListener("click", event => {
+      if (event.target === modal) {
+        modal.hidden = true;
+        modal.classList.remove("is-visible");
       }
     });
   }
 
-  // CALLBACK + FETCH: Send the subscription email to the owner's inbox.
-  // FormSubmit handles delivery; the first submission requires email activation.
-  const subscriptionForm = document.querySelector('#subscription-form');
-
-  if (subscriptionForm) {
-    subscriptionForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const status = subscriptionForm.querySelector('.form-status');
-      const submitButton = subscriptionForm.querySelector('button[type="submit"]');
-      const emailInput = subscriptionForm.querySelector('[name="email"]');
-
-      if (!subscriptionForm.reportValidity()) return;
-
-      status.className = 'form-status';
-      status.textContent = 'Sending...';
-      submitButton.disabled = true;
-
-      const submission = {
-        email: emailInput.value.trim(),
-        _subject: 'New Team Portfolio subscription',
-        _template: 'table',
-        message: 'A visitor subscribed to updates from the Team Portfolio website.'
-      };
-
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/amantayansar07@gmail.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(submission)
-        });
-
-        const result = await response.json();
-
-        // FormSubmit may return HTTP 200 for errors, so check its success value.
-        if (response.ok && result.success === 'true') {
-          status.className = 'form-status success';
-          status.textContent = 'Thank you! Your subscription request was sent.';
-          subscriptionForm.reset();
-        } else {
-          status.className = 'form-status error';
-          status.textContent = result.message ||
-            'The message could not be sent. Please try again later.';
-        }
-      } catch (error) {
-        status.className = 'form-status error';
-        status.textContent = 'Network error. Check your connection and try again.';
-        console.error('Subscription form submission failed:', error);
-      } finally {
-        submitButton.disabled = false;
-      }
-    });
-  }
-})();
+  // Initialize saved language
+  setLanguage(savedLanguage);
+});
