@@ -66,7 +66,7 @@
     });
   }
 
-  // CLASS-BASED STYLING: Switch between day and night themes.
+  // CLASS-BASED STYLING: Switch between day and night themes (uses .dark-theme).
   const themeButton = document.querySelector('#toggle-theme');
   if (themeButton) {
     themeButton.addEventListener('click', () => {
@@ -250,7 +250,7 @@
 
       fields.forEach((field) => {
         if (!field.value.trim()) {
-          errors.push(ru ? `Поле "${field.labels[0]?.textContent || ''}" обязательно для заполнения.` : `${field.labels[0]?.textContent || 'Field'} is required.`);
+          errors.push(ru ? `Поле обязатино для заполнения.` : `Field is required.`);
         } else if (field.type === 'email' && !field.validity.valid) {
           errors.push(ru ? 'Введите корректный адрес электронной почты.' : 'Enter a valid email address.');
         }
@@ -325,6 +325,10 @@
       }
     });
   }
+
+  // Initialize saved language on page load
+  setLanguage(savedLanguage);
+})();
 
   // Initialize saved language on page load
   setLanguage(savedLanguage);
