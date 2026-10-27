@@ -14,19 +14,11 @@
   const teamNames = teamMembers.map((member) => member.name);
   const teamSummary = document.querySelector('#team-summary');
 
-  function updateSummary() {
-    if (!teamSummary) return;
-    const isRu = document.documentElement.lang === 'ru';
-    teamSummary.textContent = isRu 
-      ? `Наша команда: ${teamNames.join(', ')}.` 
-      : `Our team: ${teamNames.join(', ')}.`;
-    teamSummary.title = isRu 
-      ? `Участников команды: ${teamMembers.length}` 
-      : `Team members: ${teamMembers.length}`;
-  }
-
   if (teamSummary) {
-    updateSummary();
+    teamSummary.textContent = `Our team: ${teamNames.join(', ')}.`;
+    teamSummary.title = `Team members: ${teamMembers.length}`;
+
+    // ANIMATION: Apply a small movement when the summary is clicked.
     teamSummary.addEventListener('click', () => {
       teamSummary.classList.toggle('is-animated');
     });
@@ -47,19 +39,14 @@
     });
   });
 
-  // LIVE CLOCK: Update the date and time once every second safely.
+  // LIVE CLOCK: Update the date and time once every second.
   const dateTime = document.querySelector('#current-datetime');
   if (dateTime) {
     const updateDateTime = () => {
-      try {
-        const locale = document.documentElement.lang === 'ru' ? 'ru-RU' : 'en-US';
-        dateTime.textContent = new Intl.DateTimeFormat(locale, {
-          dateStyle: 'full',
-          timeStyle: 'medium'
-        }).format(new Date());
-      } catch (err) {
-        console.error('Clock error:', err);
-      }
+      dateTime.textContent = new Intl.DateTimeFormat('en-US', {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }).format(new Date());
     };
     updateDateTime();
     window.setInterval(updateDateTime, 1000);
@@ -79,80 +66,35 @@
   }
 
   // CLASS-BASED STYLING: Switch between day and night themes.
-  let nightMode = false;
   const themeButton = document.querySelector('#toggle-theme');
   if (themeButton) {
     themeButton.addEventListener('click', () => {
-      nightMode = !nightMode;
-      document.body.classList.toggle('dark-theme', nightMode);
-      document.body.classList.toggle('night-mode', nightMode);
-      const isRu = document.documentElement.lang === 'ru';
-      themeButton.textContent = nightMode 
-        ? (isRu ? 'Дневной режим' : 'Day mode') 
-        : (isRu ? 'Ночной режим' : 'Night mode');
-      themeButton.setAttribute('aria-pressed', String(nightMode));
+      const isDark = document.body.classList.toggle('dark-theme');
+      themeButton.textContent = isDark ? 'Day mode' : 'Night mode';
+      themeButton.setAttribute('aria-pressed', String(isDark));
     });
   }
 
-  // SWITCH STATEMENT & LOCALSTORAGE: Set the page language and update translated elements.
+  // SWITCH STATEMENT: Set the page language and update translated elements.
   const languageSelect = document.querySelector('#language-select');
-  const savedLanguage = localStorage.getItem('teamPortfolioLanguage') || 'ru';
-
-  function setLanguage(langCode) {
-    let language;
-    switch (langCode) {
-      case 'en':
-        language = 'en';
-        break;
-      case 'ru':
-      default:
-        language = 'ru';
-        break;
-    }
-
-    document.documentElement.lang = language;
-    localStorage.setItem('teamPortfolioLanguage', language);
-
-    // Update text content
-    document.querySelectorAll('[data-en][data-ru]').forEach((element) => {
-      element.textContent = element.getAttribute(`data-${language}`);
-    });
-
-    // Update placeholders
-    document.querySelectorAll('[data-en-placeholder][data-ru-placeholder]').forEach((element) => {
-      element.placeholder = element.getAttribute(`data-${language}-placeholder`);
-    });
-
-    // Update alt attributes
-    document.querySelectorAll('[data-en-alt][data-ru-alt]').forEach((element) => {
-      element.alt = element.getAttribute(`data-${language}-alt`);
-    });
-
-    // Update aria-labels
-    document.querySelectorAll('[data-en-aria-label][data-ru-aria-label]').forEach((element) => {
-      element.setAttribute('aria-label', element.getAttribute(`data-${language}-aria-label`));
-    });
-
-    if (languageSelect) languageSelect.value = language;
-    
-    updateSummary();
-    if (themeButton) {
-      const isRu = language === 'ru';
-      themeButton.textContent = nightMode 
-        ? (isRu ? 'Дневной режим' : 'Day mode') 
-        : (isRu ? 'Ночной режим' : 'Night mode');
-    }
-    if (soundButton) {
-      const isRu = language === 'ru';
-      soundButton.textContent = soundEnabled 
-        ? (isRu ? 'Звук: включён' : 'Sound: On') 
-        : (isRu ? 'Звук: выключен' : 'Sound: Off');
-    }
-  }
-
   if (languageSelect) {
     languageSelect.addEventListener('change', () => {
-      setLanguage(languageSelect.value);
+      let language;
+
+      switch (languageSelect.value) {
+        case 'ru':
+          language = 'ru';
+          break;
+        case 'en':
+        default:
+          language = 'en';
+          break;
+      }
+
+      document.documentElement.lang = language;
+      document.querySelectorAll('[data-en][data-ru]').forEach((element) => {
+        element.textContent = element.getAttribute(`data-${language}`);
+      });
     });
   }
 
@@ -183,6 +125,7 @@
       oscillator.start();
       oscillator.stop(audioContext.currentTime + 0.08);
     } catch (error) {
+      // Sound is optional; the website still works if audio is unavailable.
       console.warn('Sound is unavailable.', error);
     }
   }
@@ -190,10 +133,7 @@
   if (soundButton) {
     soundButton.addEventListener('click', () => {
       soundEnabled = !soundEnabled;
-      const isRu = document.documentElement.lang === 'ru';
-      soundButton.textContent = soundEnabled 
-        ? (isRu ? 'Звук: включён' : 'Sound: On') 
-        : (isRu ? 'Звук: выключен' : 'Sound: Off');
+      soundButton.textContent = soundEnabled ? 'Sound: On' : 'Sound: Off';
       soundButton.setAttribute('aria-pressed', String(soundEnabled));
       if (soundEnabled) playSound();
     });
@@ -206,7 +146,7 @@
   });
 
   // KEYBOARD EVENTS: Use arrow keys to move focus through navigation links.
-  const menuLinks = [...document.querySelectorAll('#mainNav .nav-menu a, #main-header .nav-menu a')];
+  const menuLinks = [...document.querySelectorAll('#mainNav .nav-menu a')];
 
   menuLinks.forEach((link, index) => {
     link.addEventListener('keydown', (event) => {
@@ -216,10 +156,6 @@
         nextIndex = (index + 1) % menuLinks.length;
       } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
         nextIndex = (index - 1 + menuLinks.length) % menuLinks.length;
-      } else if (event.key === 'Home') {
-        nextIndex = 0;
-      } else if (event.key === 'End') {
-        nextIndex = menuLinks.length - 1;
       } else {
         return;
       }
@@ -242,23 +178,17 @@
     });
   });
 
-  // MODAL: Open and close the subscription window safely.
+  // MODAL: Open and close the subscription window.
   const modal = document.querySelector('#subscription-modal');
   const openModal = document.querySelector('#open-subscription');
   const closeModal = document.querySelector('#close-subscription');
 
   const closeDialog = () => {
-    if (modal) {
-      modal.classList.remove('is-visible');
-      modal.hidden = true;
-    }
+    if (modal) modal.classList.remove('is-visible');
   };
 
   if (openModal && modal) {
-    openModal.addEventListener('click', () => {
-      modal.classList.add('is-visible');
-      modal.hidden = false;
-    });
+    openModal.addEventListener('click', () => modal.classList.add('is-visible'));
   }
 
   if (closeModal) closeModal.addEventListener('click', closeDialog);
@@ -285,18 +215,17 @@
       const errorBox = validationForm.querySelector('.form-status');
       const fields = [...validationForm.querySelectorAll('input[required]')];
       const errors = [];
-      const isRu = document.documentElement.lang === 'ru';
 
       fields.forEach((field) => {
         if (!field.value.trim()) {
-          errors.push(isRu ? 'Поле обязательно для заполнения.' : 'Field is required.');
+          errors.push(`${field.labels[0].textContent} is required.`);
         } else if (field.type === 'email' && !field.validity.valid) {
-          errors.push(isRu ? 'Введите корректный адрес электронной почты.' : 'Enter a valid email address.');
+          errors.push('Enter a valid email address.');
         }
       });
 
-      if (password.value.length < 8) errors.push(isRu ? 'Пароль должен содержать не менее 8 символов.' : 'Password must contain at least 8 characters.');
-      if (password.value !== confirmation.value) errors.push(isRu ? 'Пароли должны совпадать.' : 'Password confirmation must match.');
+      if (password.value.length < 8) errors.push('Password must contain at least 8 characters.');
+      if (password.value !== confirmation.value) errors.push('Password confirmation must match.');
 
       if (errors.length) {
         errorBox.className = 'form-status error';
@@ -304,13 +233,14 @@
         validationForm.querySelector(':invalid')?.focus();
       } else {
         errorBox.className = 'form-status success';
-        errorBox.textContent = isRu ? 'Проверка успешно пройдена. Спасибо!' : 'Validation passed. Thank you for joining us!';
+        errorBox.textContent = 'Validation passed. Thank you for joining us!';
         validationForm.reset();
       }
     });
   }
 
-  // CALLBACK + FETCH: Send the subscription email.
+  // CALLBACK + FETCH: Send the subscription email to the owner's inbox.
+  // FormSubmit handles delivery; the first submission requires email activation.
   const subscriptionForm = document.querySelector('#subscription-form');
 
   if (subscriptionForm) {
@@ -320,12 +250,11 @@
       const status = subscriptionForm.querySelector('.form-status');
       const submitButton = subscriptionForm.querySelector('button[type="submit"]');
       const emailInput = subscriptionForm.querySelector('[name="email"]');
-      const isRu = document.documentElement.lang === 'ru';
 
       if (!subscriptionForm.reportValidity()) return;
 
       status.className = 'form-status';
-      status.textContent = isRu ? 'Отправка...' : 'Sending...';
+      status.textContent = 'Sending...';
       submitButton.disabled = true;
 
       const submission = {
@@ -347,24 +276,26 @@
 
         const result = await response.json();
 
+        // FormSubmit may return HTTP 200 for errors, so check its success value.
         if (response.ok && result.success === 'true') {
           status.className = 'form-status success';
-          status.textContent = isRu ? 'Спасибо! Ваша подписка оформлена.' : 'Thank you! Your subscription request was sent.';
+          status.textContent = 'Thank you! Your subscription request was sent.';
           subscriptionForm.reset();
         } else {
           status.className = 'form-status error';
-          status.textContent = result.message || (isRu ? 'Не удалось отправить сообщение. Попробуйте позже.' : 'The message could not be sent. Please try again later.');
+          status.textContent = result.message ||
+            'The message could not be sent. Please try again later.';
         }
       } catch (error) {
         status.className = 'form-status error';
-        status.textContent = isRu ? 'Ошибка сети. Проверьте подключение.' : 'Network error. Check your connection and try again.';
+        status.textContent = 'Network error. Check your connection and try again.';
         console.error('Subscription form submission failed:', error);
       } finally {
         submitButton.disabled = false;
       }
     });
   }
+})();
 
-  // Initialize saved language on page load
   setLanguage(savedLanguage);
 })();
