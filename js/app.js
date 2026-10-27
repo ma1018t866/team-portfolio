@@ -14,11 +14,19 @@
   const teamNames = teamMembers.map((member) => member.name);
   const teamSummary = document.querySelector('#team-summary');
 
-  if (teamSummary) {
-    teamSummary.textContent = `Our team: ${teamNames.join(', ')}.`;
-    teamSummary.title = `Team members: ${teamMembers.length}`;
+  function updateSummary() {
+    if (!teamSummary) return;
+    const isRu = document.documentElement.lang === 'ru';
+    teamSummary.textContent = isRu 
+      ? `Наша команда: ${teamNames.join(', ')}.` 
+      : `Our team: ${teamNames.join(', ')}.`;
+    teamSummary.title = isRu 
+      ? `Участников команды: ${teamMembers.length}` 
+      : `Team members: ${teamMembers.length}`;
+  }
 
-    // ANIMATION: Apply a small movement when the summary is clicked.
+  if (teamSummary) {
+    updateSummary();
     teamSummary.addEventListener('click', () => {
       teamSummary.classList.toggle('is-animated');
     });
@@ -39,15 +47,19 @@
     });
   });
 
-  // LIVE CLOCK: Update the date and time once every second.
+  // LIVE CLOCK: Update the date and time once every second safely.
   const dateTime = document.querySelector('#current-datetime');
   if (dateTime) {
     const updateDateTime = () => {
-      const locale = document.documentElement.lang === 'ru' ? 'ru-RU' : 'en-US';
-      dateTime.textContent = new Intl.DateTimeFormat(locale, {
-        dateStyle: 'full',
-        timeStyle: 'medium'
-      }).format(new Date());
+      try {
+        const locale = document.documentElement.lang === 'ru' ? 'ru-RU' : 'en-US';
+        dateTime.textContent = new Intl.DateTimeFormat(locale, {
+          dateStyle: 'full',
+          timeStyle: 'medium'
+        }).format(new Date());
+      } catch (err) {
+        console.error('Clock error:', err);
+      }
     };
     updateDateTime();
     window.setInterval(updateDateTime, 1000);
@@ -66,14 +78,19 @@
     });
   }
 
-  // CLASS-BASED STYLING: Switch between day and night themes (uses .dark-theme).
+  // CLASS-BASED STYLING: Switch between day and night themes.
+  let nightMode = false;
   const themeButton = document.querySelector('#toggle-theme');
   if (themeButton) {
     themeButton.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-theme');
-      const ru = document.documentElement.lang === 'ru';
-      themeButton.textContent = isDark ? (ru ? 'Дневной режим' : 'Day mode') : (ru ? 'Ночной режим' : 'Night mode');
-      themeButton.setAttribute('aria-pressed', String(isDark));
+      nightMode = !nightMode;
+      document.body.classList.toggle('dark-theme', nightMode);
+      document.body.classList.toggle('night-mode', nightMode);
+      const isRu = document.documentElement.lang === 'ru';
+      themeButton.textContent = nightMode 
+        ? (isRu ? 'Дневной режим' : 'Day mode') 
+        : (isRu ? 'Ночной режим' : 'Night mode');
+      themeButton.setAttribute('aria-pressed', String(nightMode));
     });
   }
 
@@ -117,6 +134,20 @@
     });
 
     if (languageSelect) languageSelect.value = language;
+    
+    updateSummary();
+    if (themeButton) {
+      const isRu = language === 'ru';
+      themeButton.textContent = nightMode 
+        ? (isRu ? 'Дневной режим' : 'Day mode') 
+        : (isRu ? 'Ночной режим' : 'Night mode');
+    }
+    if (soundButton) {
+      const isRu = language === 'ru';
+      soundButton.textContent = soundEnabled 
+        ? (isRu ? 'Звук: включён' : 'Sound: On') 
+        : (isRu ? 'Звук: выключен' : 'Sound: Off');
+    }
   }
 
   if (languageSelect) {
@@ -159,8 +190,10 @@
   if (soundButton) {
     soundButton.addEventListener('click', () => {
       soundEnabled = !soundEnabled;
-      const ru = document.documentElement.lang === 'ru';
-      soundButton.textContent = soundEnabled ? (ru ? 'Звук: включён' : 'Sound: On') : (ru ? 'Звук: выключен' : 'Sound: Off');
+      const isRu = document.documentElement.lang === 'ru';
+      soundButton.textContent = soundEnabled 
+        ? (isRu ? 'Звук: включён' : 'Sound: On') 
+        : (isRu ? 'Звук: выключен' : 'Sound: Off');
       soundButton.setAttribute('aria-pressed', String(soundEnabled));
       if (soundEnabled) playSound();
     });
@@ -209,17 +242,23 @@
     });
   });
 
-  // MODAL: Open and close the subscription window.
+  // MODAL: Open and close the subscription window safely.
   const modal = document.querySelector('#subscription-modal');
   const openModal = document.querySelector('#open-subscription');
   const closeModal = document.querySelector('#close-subscription');
 
   const closeDialog = () => {
-    if (modal) modal.classList.remove('is-visible');
+    if (modal) {
+      modal.classList.remove('is-visible');
+      modal.hidden = true;
+    }
   };
 
   if (openModal && modal) {
-    openModal.addEventListener('click', () => modal.classList.add('is-visible'));
+    openModal.addEventListener('click', () => {
+      modal.classList.add('is-visible');
+      modal.hidden = false;
+    });
   }
 
   if (closeModal) closeModal.addEventListener('click', closeDialog);
@@ -246,18 +285,18 @@
       const errorBox = validationForm.querySelector('.form-status');
       const fields = [...validationForm.querySelectorAll('input[required]')];
       const errors = [];
-      const ru = document.documentElement.lang === 'ru';
+      const isRu = document.documentElement.lang === 'ru';
 
       fields.forEach((field) => {
         if (!field.value.trim()) {
-          errors.push(ru ? 'Поле обязательно для заполнения.' : 'Field is required.');
+          errors.push(isRu ? 'Поле обязательно для заполнения.' : 'Field is required.');
         } else if (field.type === 'email' && !field.validity.valid) {
-          errors.push(ru ? 'Введите корректный адрес электронной почты.' : 'Enter a valid email address.');
+          errors.push(isRu ? 'Введите корректный адрес электронной почты.' : 'Enter a valid email address.');
         }
       });
 
-      if (password.value.length < 8) errors.push(ru ? 'Пароль должен содержать не менее 8 символов.' : 'Password must contain at least 8 characters.');
-      if (password.value !== confirmation.value) errors.push(ru ? 'Пароли должны совпадать.' : 'Password confirmation must match.');
+      if (password.value.length < 8) errors.push(isRu ? 'Пароль должен содержать не менее 8 символов.' : 'Password must contain at least 8 characters.');
+      if (password.value !== confirmation.value) errors.push(isRu ? 'Пароли должны совпадать.' : 'Password confirmation must match.');
 
       if (errors.length) {
         errorBox.className = 'form-status error';
@@ -265,13 +304,13 @@
         validationForm.querySelector(':invalid')?.focus();
       } else {
         errorBox.className = 'form-status success';
-        errorBox.textContent = ru ? 'Проверка успешно пройдена. Спасибо!' : 'Validation passed. Thank you for joining us!';
+        errorBox.textContent = isRu ? 'Проверка успешно пройдена. Спасибо!' : 'Validation passed. Thank you for joining us!';
         validationForm.reset();
       }
     });
   }
 
-  // CALLBACK + FETCH: Send the subscription email to the owner's inbox.
+  // CALLBACK + FETCH: Send the subscription email.
   const subscriptionForm = document.querySelector('#subscription-form');
 
   if (subscriptionForm) {
@@ -281,12 +320,12 @@
       const status = subscriptionForm.querySelector('.form-status');
       const submitButton = subscriptionForm.querySelector('button[type="submit"]');
       const emailInput = subscriptionForm.querySelector('[name="email"]');
-      const ru = document.documentElement.lang === 'ru';
+      const isRu = document.documentElement.lang === 'ru';
 
       if (!subscriptionForm.reportValidity()) return;
 
       status.className = 'form-status';
-      status.textContent = ru ? 'Отправка...' : 'Sending...';
+      status.textContent = isRu ? 'Отправка...' : 'Sending...';
       submitButton.disabled = true;
 
       const submission = {
@@ -310,25 +349,21 @@
 
         if (response.ok && result.success === 'true') {
           status.className = 'form-status success';
-          status.textContent = ru ? 'Спасибо! Ваша подписка оформлена.' : 'Thank you! Your subscription request was sent.';
+          status.textContent = isRu ? 'Спасибо! Ваша подписка оформлена.' : 'Thank you! Your subscription request was sent.';
           subscriptionForm.reset();
         } else {
           status.className = 'form-status error';
-          status.textContent = result.message || (ru ? 'Не удалось отправить сообщение. Попробуйте позже.' : 'The message could not be sent. Please try again later.');
+          status.textContent = result.message || (isRu ? 'Не удалось отправить сообщение. Попробуйте позже.' : 'The message could not be sent. Please try again later.');
         }
       } catch (error) {
         status.className = 'form-status error';
-        status.textContent = ru ? 'Ошибка сети. Проверьте подключение.' : 'Network error. Check your connection and try again.';
+        status.textContent = isRu ? 'Ошибка сети. Проверьте подключение.' : 'Network error. Check your connection and try again.';
         console.error('Subscription form submission failed:', error);
       } finally {
         submitButton.disabled = false;
       }
     });
   }
-
-  // Initialize saved language on page load
-  setLanguage(savedLanguage);
-})();
 
   // Initialize saved language on page load
   setLanguage(savedLanguage);
