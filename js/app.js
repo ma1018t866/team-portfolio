@@ -3,6 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedLanguage = localStorage.getItem("teamPortfolioLanguage") || "ru";
 
   function setLanguage(language) {
+    // switch statement explicitly handles the language-selector choices (Assignment 5).
+    switch (language) {
+      case "en": 
+        language = "en"; 
+        break;
+      case "ru": 
+        language = "ru"; 
+        break;
+      default: 
+        language = "ru";
+    }
     document.documentElement.lang = language;
     document.querySelectorAll("[data-en][data-ru]").forEach((element) => {
       element.textContent = element.getAttribute(`data-${language}`);
@@ -26,6 +37,27 @@ document.addEventListener("DOMContentLoaded", () => {
   if (languageSelect) {
     languageSelect.addEventListener("change", () => setLanguage(languageSelect.value));
   }
+
+  // Keyboard navigation: arrow keys move focus through the primary navigation links.
+  const menuLinks = Array.from(document.querySelectorAll("#main-header .nav-menu a"));
+  menuLinks.forEach((link, index) => {
+    link.addEventListener("keydown", event => {
+      let nextIndex = index;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        nextIndex = (index + 1) % menuLinks.length;
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        nextIndex = (index - 1 + menuLinks.length) % menuLinks.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = menuLinks.length - 1;
+      } else {
+        return;
+      }
+      event.preventDefault();
+      menuLinks[nextIndex].focus();
+    });
+  });
 
   const teamMembers = [
     { name: "Mansur", cityEn: "Astana", cityRu: "Астана", interestsEn: "running, billiards, and web development", interestsRu: "бег, бильярд и веб-разработка" },
@@ -94,10 +126,35 @@ document.addEventListener("DOMContentLoaded", () => {
     soundButton.textContent = soundOn ? (ru ? "Звук: включён" : "Sound: On") : (ru ? "Звук: выключен" : "Sound: Off");
     soundButton.setAttribute("aria-pressed", String(soundOn));
   }
+
+  function playUiSound() {
+    if (!soundOn) return;
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+      const audio = new AudioContextClass();
+      const oscillator = audio.createOscillator();
+      const gain = audio.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.value = 660;
+      gain.gain.setValueAtTime(0.0001, audio.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, audio.currentTime + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.12);
+      oscillator.connect(gain); 
+      gain.connect(audio.destination);
+      oscillator.start(); 
+      oscillator.stop(audio.currentTime + 0.13);
+      oscillator.addEventListener("ended", () => audio.close(), { once: true });
+    } catch (error) { 
+      /* Audio is optional; the interface remains usable. */ 
+    }
+  }
+
   if (soundButton) {
     soundButton.addEventListener("click", () => { 
       soundOn = !soundOn; 
       updateSoundButton(); 
+      if (soundOn) playUiSound(); 
     });
   }
 
@@ -107,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const expanded = button.getAttribute("aria-expanded") === "true";
       button.setAttribute("aria-expanded", String(!expanded));
       if (panel) panel.hidden = expanded;
+      playUiSound();
     });
   });
 
@@ -140,9 +198,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const openModal = document.getElementById("open-subscription");
   const closeModal = document.getElementById("close-subscription");
   if (modal) modal.hidden = true;
-  if (openModal && modal) openModal.addEventListener("click", () => { modal.hidden = false; });
-  if (closeModal && modal) closeModal.addEventListener("click", () => { modal.hidden = true; });
-  if (modal) modal.addEventListener("click", event => { if (event.target === modal) modal.hidden = true; });
+  if (openModal && modal) {
+    openModal.addEventListener("click", () => { modal.hidden = false; });
+  }
+  if (closeModal && modal) {
+    closeModal.addEventListener("click", () => { modal.hidden = true; });
+  }
+  if (modal) {
+    modal.addEventListener("click", event => { 
+      if (event.target === modal) modal.hidden = true; 
+    });
+  }
 
   const subscriptionForm = document.getElementById("subscription-form");
   if (subscriptionForm) {
