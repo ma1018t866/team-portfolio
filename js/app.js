@@ -250,7 +250,7 @@
 
       fields.forEach((field) => {
         if (!field.value.trim()) {
-          errors.push(ru ? `Поле обязатино для заполнения.` : `Field is required.`);
+          errors.push(ru ? 'Поле обязательно для заполнения.' : 'Field is required.');
         } else if (field.type === 'email' && !field.validity.valid) {
           errors.push(ru ? 'Введите корректный адрес электронной почты.' : 'Enter a valid email address.');
         }
